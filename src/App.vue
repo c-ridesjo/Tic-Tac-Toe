@@ -8,7 +8,7 @@
     ['', '', ''],   // 9 squares for the board
   ])
 
-  const calculateWinner = (squares) => {
+  const calculateWinner = (squares: string[]): string | null => {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -27,6 +27,20 @@
   }
   return null;
 }
+
+const winner = computed (() => calculateWinner (board.value.flat()))
+
+const makeAMove = (x:number, y:number) => {
+  if (winner.value) return  // if we have a winner...
+
+  if (board.value[x][y] !== '') return    // if the boards value is not equal to en empty box... If someone is playing you cant make a move
+
+  board.value[x][y] = player.value
+
+  player.value = player.value === 'X' ? 'O' : 'X'  //if this is true -> swap it to O - else its X
+}
+
+
 
 </script>
 
