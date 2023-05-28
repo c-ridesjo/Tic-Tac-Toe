@@ -39,6 +39,15 @@ const makeAMove = (x:number, y:number) => {
 
   player.value = player.value === 'X' ? 'O' : 'X'  //if this is true -> swap it to O - else its X
 }
+
+const ResetGame = () => {
+  board.value= [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', ''],   // 9 squares for the board
+  ]
+  player.value = 'X'
+}
 </script>
 
 <template>
