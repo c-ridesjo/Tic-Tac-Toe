@@ -51,10 +51,33 @@ const ResetGame = () => {
 </script>
 
 <template>
-  <h1>Testing!</h1>
+  <main class="pt-8 text-center bg-gray-800 dark:bg-gray-900 min-h-screen dark:text-white">
+
+
+    <h1 class="mb-8 text-5x1 font-bold uppercase text-white">Tic Tac Toe</h1>
+    <h3 class="text-x1 mb-4 text-white">Player {{ player }}'s turn</h3>
+
+    <div class="flex flex-col items-center mb-8">
+      <div
+        v-for="(row, x) in board"
+        :key="x"
+        class="flex">
+
+        <div
+          v-for="(cell, y) in row"
+          :key="y"
+          @click="makeAMove(x, y)"
+          :class="`border border-white w-20 h-20 hover:bg-grey-700 flex items-center
+          justify-center material-icons-outlined text-4x1 cursor-pointer ${ cell === 'X' ? 'text-green-500' : 'text-pink-400' }`">
+          {{ cell === 'X' ? 'close' : cell === 'O' ? 'circle' : '' }}
+        </div>
+      </div>
+    </div>
+    
+    <h2 v-if="winner" class="text-6x1 font-bold mb-8 text-white">Player {{ winner }} wins!</h2>
+
+    <button @click="ResetGame" class="px-4 py-2 bg-green-500 rounded uppercase 
+    font-bold hover:bg-green-600 duration-300 ">Restart game</button>
+  </main>
 
 </template>
-
-<style scoped>
-
-</style>
