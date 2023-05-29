@@ -6,6 +6,5 @@ import GameBoard from './components/GameBoard.vue';
   <GameBoard></GameBoard>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
 
