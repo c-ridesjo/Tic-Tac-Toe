@@ -8,6 +8,11 @@
     ['', '', ''],   // 9 squares for the board
   ])
 
+  const score = ref({
+    X: 0,
+    O: 0,
+  })
+
   const calculateWinner = (squares: string[]): string | null => {
   const lines = [
     [0, 1, 2],
@@ -38,7 +43,12 @@ const makeAMove = (x:number, y:number) => {
   board.value[x][y] = player.value
 
   player.value = player.value === 'X' ? 'O' : 'X'  //if this is true -> swap it to O - else its X
-}
+
+  const currentWinner = calculateWinner(board.value.flat());
+  if (currentWinner) {
+    score.value[currentWinner]++;
+  }
+};
 
 const ResetGame = () => {
   board.value= [
@@ -72,6 +82,13 @@ const ResetGame = () => {
           {{ cell === 'X' ? 'close' : cell === 'O' ? 'circle' : '' }}
         </div>
       </div>
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-white">Score</h2>
+        <div class="text-white">
+          <p>Player X: {{ score.X }}</p>
+          <p>Player O: {{ score.O }}</p>
+        </div>
+  </div>
     </div>
     
     <h2 v-if="winner" class="text-6x1 font-bold mb-8 text-white">Player {{ winner }} wins!</h2>
