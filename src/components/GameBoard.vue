@@ -5,7 +5,7 @@ const props = defineProps({
   startgame: Function, // Define the startgame prop
 });
 
-const emits = defineEmits(['startgame']); // Define the startgame event
+const emits = defineEmits(['startgame', 'resetgame']); // Add 'resetgame' to defineEmits
 
 
 const player = ref('X');
@@ -56,13 +56,13 @@ const isBoardFull = computed(() => {
 const isTied = ref(false);
 
 const makeAMove = (x: number, y: number) => {
-  if (winner.value) return  // if there is a winner...
+  if (!gameStarted.value || winner.value) return;  // Check if game has started and there is no winner
 
-  if (board.value[x][y] !== '') return    // if the boards value is not equal to en empty box... If someone is playing you cant make a move
+  if (board.value[x][y] !== '') return;    // if the board's value is not equal to an empty box, someone is playing
 
-  board.value[x][y] = player.value
+  board.value[x][y] = player.value;
 
-  player.value = player.value === 'X' ? 'O' : 'X'  //if this is true -> swap it to O - else its X
+  player.value = player.value === 'X' ? 'O' : 'X';  //if this is true -> swap it to O - else it's X
 
   const currentWinner = calculateWinner(board.value.flat());
   if (currentWinner) {
@@ -77,15 +77,15 @@ const resetScore = () => {
   score.value.O = 0;
 };
 
-const ResetGame = () => {
+const resetGame = () => {
   board.value = [
     ['', '', ''],
     ['', '', ''],
     ['', '', ''],
-  ]
+  ];
   player.value = 'X';
   isTied.value = false;
-}
+};
 
 const saveGameState = () => {
   const gameState = {
@@ -121,10 +121,9 @@ const gameStarted = ref(false);
 
 const startGame = () => {
   if (playerXName.value && playerOName.value) {
-    gameStarted.value=true;
+    gameStarted.value = true;
   }
 };
-
 </script>
 
 <template>
@@ -133,7 +132,7 @@ const startGame = () => {
       <div class="text-black mx-8 mt-14">
         <h1 class="mb-0 text-5xl font-bold uppercase bg-yellow-200 shadow-xl shadow-yellow-500/50">Tic</h1>
         <h1 class="mb-0 text-5xl font-bold uppercase mt-2 bg-yellow-200 shadow-xl shadow-yellow-500/50">Tac</h1>
-        <h1 class="mb-0 text-5xl font-bold uppercase mt-2 bg-yellow-200 shadow-xl shadow-yellow-500/50">Toe</h1>
+        <h1 class="mb-0 text-5xl font-bold uppercase mt-2 bg-yellow-200 shadow-xl shadow-yellow-500/50">Toe</h1>       
       </div>
 
       <div class="flex justify-around mx-20">
@@ -157,8 +156,8 @@ const startGame = () => {
 
           <h2 v-if="isTied" class="text-2xl font-bold mb-5 text-amber-200">Tied game!</h2>
 
-          <button @click="startGame" class="px-4 mt-3 py-2 bg-green-500 rounded uppercase 
-          font-bold hover:bg-green-600 duration-300 ">Start game</button>
+          <button v-else @click="resetGame" class="px-4 mt-0 ml-4 py-2 bg-green-500 rounded uppercase font-bold hover:bg-green-600 duration-300">Reset game</button>
+
         </div>
 
         <div class="mb-8 mx-20">
@@ -169,17 +168,22 @@ const startGame = () => {
             <button @click="resetScore" class="px-2 py-1 bg-pink-400 rounded uppercase 
                 font-bold hover:bg-pink-500 duration-300 mt-4 text-black">Reset</button>
           </div>
-
-          <div class="container flex flex-col items-center pt-16">
-            <form class="mb-8">
-              <label for="playerXName" class="mb-2 font-bold">Player X name:</label>
-              <input type="text" id="playerXName" v-model="playerXName" required class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <label for="playerOName" class="mt-4 mb-2 font-bold">Player O name:</label>
-              <input type="text" id="playerOName" v-model="playerOName" required class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </form>
-          </div>
         </div>        
       </div>
+    </div>
+    <div class="mt-8">
+      <form class="flex justify-end">
+        <div class="mr-4">
+          <label for="playerXName" class="mb-2 font-bold text-white">Player X name:</label>
+          <input type="text" id="playerXName" v-model="playerXName" required class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label for="playerOName" class="mb-2 font-bold text-white">Player O name:</label>
+          <input type="text" id="playerOName" v-model="playerOName" required class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button v-if="!gameStarted && playerXName && playerOName" @click="startGame" class="px-4 mt-0 ml-4 py-2 bg-green-500 rounded uppercase font-bold hover:bg-green-600 duration-300">Start game</button>
+
+      </form>
     </div>
   </main>
 </template>
