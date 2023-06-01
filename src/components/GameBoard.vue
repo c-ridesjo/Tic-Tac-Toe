@@ -174,11 +174,11 @@ const startGame = () => {
         <div class="mb-8 mx-20">
           <h2 class="text-2xl font-bold text-white mt-14 mb-2 mx-12">Score</h2>
           <div class="text-white">
-              <p>{{ playerXName || 'Player X' }}: {{ score.X }}</p>
-              <p>{{ playerOName || 'Player O' }}: {{ score.O }}</p>
-              <button @click="resetScore"
-                class="px-2 py-1 bg-pink-400 rounded uppercase font-bold hover:bg-pink-500 duration-300 mt-4 text-black">Reset
-                score</button>
+            <p>{{ playerXName || 'Player X' }}: {{ score.X }}</p>
+            <p>{{ playerOName || 'Player O' }}: {{ score.O }}</p>
+            <button @click="resetScore"
+              class="px-2 py-1 bg-pink-400 rounded uppercase font-bold hover:bg-pink-500 duration-300 mt-4 text-black">Reset
+              score</button>
           </div>
         </div>
       </div>
