@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount, defineProps, defineEmits } from 'vue';
+
+const props = defineProps({
+  startgame: Function, // Define the startgame prop
+});
+
+const emits = defineEmits(['startgame']); // Define the startgame event
+
 
 const player = ref('X');
 const board = ref([
@@ -107,6 +114,17 @@ loadGameState();  // Call this function when the game starts or refreshes
 onBeforeUnmount(() => {   // Save game state whenever there is a change
   saveGameState();
 });
+
+const playerXName = ref('');
+const playerOName = ref('');
+const gameStarted = ref(false);
+
+const startGame = () => {
+  if (playerXName.value && playerOName.value) {
+    gameStarted.value=true;
+  }
+};
+
 </script>
 
 <template>
@@ -139,7 +157,7 @@ onBeforeUnmount(() => {   // Save game state whenever there is a change
 
           <h2 v-if="isTied" class="text-2xl font-bold mb-5 text-amber-200">Tied game!</h2>
 
-          <button @click="ResetGame" class="px-4 mt-3 py-2 bg-green-500 rounded uppercase 
+          <button @click="startGame" class="px-4 mt-3 py-2 bg-green-500 rounded uppercase 
           font-bold hover:bg-green-600 duration-300 ">Start game</button>
         </div>
 
@@ -151,9 +169,17 @@ onBeforeUnmount(() => {   // Save game state whenever there is a change
             <button @click="resetScore" class="px-2 py-1 bg-pink-400 rounded uppercase 
                 font-bold hover:bg-pink-500 duration-300 mt-4 text-black">Reset</button>
           </div>
-        </div>
+
+          <div class="container flex flex-col items-center pt-16">
+            <form class="mb-8">
+              <label for="playerXName" class="mb-2 font-bold">Player X name:</label>
+              <input type="text" id="playerXName" v-model="playerXName" required class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <label for="playerOName" class="mt-4 mb-2 font-bold">Player O name:</label>
+              <input type="text" id="playerOName" v-model="playerOName" required class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </form>
+          </div>
+        </div>        
       </div>
     </div>
-
   </main>
 </template>
