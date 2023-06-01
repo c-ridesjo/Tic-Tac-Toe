@@ -158,7 +158,8 @@ const startGame = () => {
 
           <h2 v-if="isTied" class="text-2xl font-bold mb-5 text-amber-200">Tied game!</h2>
 
-          <button v-else @click="resetGame" class="px-4 mt-0 ml-4 py-2 bg-green-500 rounded uppercase font-bold hover:bg-green-600 duration-300">Reset game</button>
+          <button v-show="gameStarted || isTied" @click="resetGame" class="px-4 mt-3 py-2 bg-green-500 rounded uppercase font-bold hover:bg-green-600 duration-300">Reset game</button>
+
 
         </div>
 
