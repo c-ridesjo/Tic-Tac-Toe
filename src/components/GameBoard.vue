@@ -137,7 +137,11 @@ const startGame = () => {
 
       <div class="flex justify-around mx-20">
         <div>
-          <h3 class="text-1xl font-bold text-white">Player {{ player }}'s turn</h3>
+          <h3 class="text-1xl font-bold text-white">
+            {{ gameStarted && (player === 'X' ? playerXName : playerOName) ? (player === 'X' ? playerXName : playerOName) + "'s turn" : "Player X's turn" }}
+          </h3>
+
+
 
           <div class="flex flex-col items-center mb-6">
             <div v-for="(row, x) in board" :key="x" class="flex">
@@ -152,7 +156,7 @@ const startGame = () => {
 
           <h2 v-if="winner"
             class="border-2 border-amber-500/20 text-6x1 font-bold mb-5 shadow-lg shadow-amber-500/50 text-amber-200">
-            Player {{ winner }} wins!</h2>
+            Congratulations {{ winner === 'X' ? playerXName : playerOName }}!</h2>
 
           <h2 v-if="isTied" class="text-2xl font-bold mb-5 text-amber-200">Tied game!</h2>
 
@@ -163,8 +167,8 @@ const startGame = () => {
         <div class="mb-8 mx-20">
           <h2 class="text-1xl font-bold text-white mt-14 mx-12">Score</h2>
           <div class="text-white">
-            <p>Player X: {{ score.X }}</p>
-            <p>Player O: {{ score.O }}</p>
+            <p>{{ playerXName || 'Player X' }}: {{ score.X }}</p>
+            <p>{{ playerOName || 'Player O' }}: {{ score.O }}</p>
             <button @click="resetScore" class="px-2 py-1 bg-pink-400 rounded uppercase 
                 font-bold hover:bg-pink-500 duration-300 mt-4 text-black">Reset</button>
           </div>
