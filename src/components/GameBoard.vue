@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount } from 'vue';
 
-const props = defineProps({
+/* const props = defineProps({
   startgame: Function,
-});
+}); */
 
-const emits = defineEmits(['startgame', 'resetgame']);
+/* const emits = defineEmits(['startgame', 'resetgame']); */
 
 const player = ref('X');
 const board = ref([
@@ -55,7 +55,7 @@ const isBoardFull = computed(() => {
 const isTied = ref(false);
 
 const makeAMove = (x: number, y: number) => {
-  if (!gameStarted.value || winner.value) return;
+  if (!gameStarted.value || winner.value || !playerXName.value || !playerOName.value) return;
 
   if (board.value[x][y] !== '') return;
 
@@ -72,11 +72,12 @@ const makeAMove = (x: number, y: number) => {
 };
 
 const resetScore = () => {
+  resetGame();
+
   score.value.X = 0;
   score.value.O = 0;
   playerXName.value = '';
   playerOName.value = '';
-  resetGame();
 };
 
 const resetGame = () => {
@@ -103,6 +104,7 @@ const saveGameState = () => {
 };
 
 const loadGameState = () => {
+  localStorage.removeItem('ticTacToeGame');
   const savedGame = localStorage.getItem('ticTacToeGame');
   if (savedGame) {
     const gameState = JSON.parse(savedGame);
