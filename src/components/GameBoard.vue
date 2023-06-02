@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount } from 'vue';
 
-/* const props = defineProps({
-  startgame: Function,
-}); */
-
-/* const emits = defineEmits(['startgame', 'resetgame']); */
-
 const player = ref('X');
 const board = ref([
   ['', '', ''],
   ['', '', ''],
   ['', '', ''],
-])
+]);
 
 const score = ref<{ [key: string]: number }>({
   X: 0,
@@ -37,7 +31,7 @@ const calculateWinner = (squares: string[]): string | null => {
     }
   }
   return null;
-}
+};
 
 const winner = computed(() => calculateWinner(board.value.flat()))
 
