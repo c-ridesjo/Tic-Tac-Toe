@@ -71,13 +71,12 @@ const makeAMove = (x: number, y: number) => {
   }
 };
 
-const resetScore = () => {
-  resetGame();
-
+const resetScore = () => { 
   score.value.X = 0;
   score.value.O = 0;
   playerXName.value = '';
   playerOName.value = '';
+  resetGame();
 };
 
 const resetGame = () => {
